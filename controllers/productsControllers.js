@@ -1,12 +1,12 @@
-const test = (req, res) => {
+const getAll = (req, res) => {
   res.status(200).json({ message: 'Controller' });
 };
 
-const testId = (req, res) => {
+const getById = (req, res) => {
   res.status(200).json({ message: 'ControllerId' });
 };
 
 module.exports = {
-  test,
-  testId,
+  getAll,
+  getById,
 };
