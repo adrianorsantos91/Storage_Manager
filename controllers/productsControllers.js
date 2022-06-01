@@ -1,13 +1,12 @@
-const express = require('express');
+const test = (req, res) => {
+  res.status(200).json({ message: 'Controller' });
+};
 
-const router = express.Router();
+const testId = (req, res) => {
+  res.status(200).json({ message: 'ControllerId' });
+};
 
-router.get('/product/', async (req, res) => {
-  res.status(200).json({ message: 'teste' });
-});
-
-router.get('/product/:id', async (req, res) => {
-  res.status(200).json({ message: 'teste' });
-});
-
-module.exports = router;
+module.exports = {
+  test,
+  testId,
+};
