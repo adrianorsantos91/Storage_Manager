@@ -7,16 +7,14 @@ const getAll = async (_req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const productsAllList = await productsService.getAll();
-  const productsList = await productsService.getById(id);
 
-  const isValidId = productsAllList.find((p) => p.id === parseInt(id, 2));
+  const [productsList] = await productsService.getById(id);
 
-  if (!isValidId) {
-    return res.status(404).json({ message: 'Product not found' });
+  if (!productsList) {
+    res.status(404).json({ message: 'Product not found' });
   }
 
-  res.status(200).json(productsList);
+  return res.status(200).json(productsList);
 };
 
 module.exports = {
