@@ -7,9 +7,12 @@ const getAll = async (_req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
+  const productsAllList = await productsService.getAll();
   const productsList = await productsService.getById(id);
 
-  if (productsList.length === 0) {
+  const isValidId = productsAllList.find((p) => p.id === parseInt(id, 2));
+
+  if (!isValidId) {
     return res.status(404).json({ message: 'Product not found' });
   }
 
