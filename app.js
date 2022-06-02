@@ -1,5 +1,6 @@
 const express = require('express');
 const productsRouters = require('./routers/productsRouters');
+const salesRouters = require('./routers/salesRouters');
 const errorHandle = require('./middlewares/errorHandle');
 
 const app = express();
@@ -10,6 +11,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', productsRouters);
+app.use('/sales', salesRouters);
 
 app.use(errorHandle);
 // não remova essa exportação, é para o avaliador funcionar
