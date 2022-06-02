@@ -11,7 +11,7 @@ const getById = async (req, res) => {
   const [saleId] = await salesService.getById(id);
 
   if (!saleId) {
-    res.status(404).json({ message: 'Product not found' });
+    res.status(404).json({ message: 'Sale not found' });
   }
 
   return res.status(200).json(saleId);
