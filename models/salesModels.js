@@ -13,7 +13,6 @@ const getAll = () => connection.execute(
 
 const getById = (id) => connection.execute(
   `SELECT
-    id,
     date,
     product_id,
     quantity
