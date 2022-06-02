@@ -1,13 +1,12 @@
 const salesModels = require('../models/salesModels');
 
 const changeSalesToCamelCase = (salesData) => {
-  const { id, date, product_id, quantity } = salesData;
+  const { id, date, quantity } = salesData;
 
   return {
     saleId: id,
     date,
-    // eslint-disable-next-line camelcase
-    productId: product_id,
+    productId: salesData.product_id,
     quantity,
   };
 };
