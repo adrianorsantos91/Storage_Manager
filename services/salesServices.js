@@ -22,7 +22,13 @@ const getById = async (id) => {
     }
 };
 
+const create = async (salesData) => {
+  const result = await salesModels.create(salesData);
+  return result;
+};
+
 module.exports = {
   getAll,
   getById,
+  create,
 };
