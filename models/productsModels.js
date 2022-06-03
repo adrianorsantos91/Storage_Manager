@@ -20,7 +20,7 @@ const create = async (name, quantity) => {
 const updateById = (id, name, quantity) => connection.execute(
     'UPDATE products SET name = ?, quantity = ? WHERE id = ?',
     [name, quantity, id],
-  );
+);
 
 const deleteById = (id) => connection.execute(
     'DELETE FROM products WHERE id = ?',
