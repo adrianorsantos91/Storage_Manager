@@ -34,15 +34,20 @@ const create = async (req, res) => {
 
 const updateById = async (req, res) => {
   const { id } = req.params;
-  const productList = await productsService.getAll();
+  const { name, quantity } = req.body;
   const result = await productsService.updateById(id, req.body);
-  productList.forEach((e) => {
-    if (e.id === id) {
-      return res.status(200).json(result);
-    }
-  });
 
-  return res.status(404).send({ message: 'Product not found' });
+  if (!result) {
+    return res.status(404).send({ message: 'Product not found' });
+  }
+
+  const objectUpdate = {
+    id,
+    name,
+    quantity,
+  };
+
+  return res.status(200).json(objectUpdate);
 };
 
 const deleteById = async (req, res) => {
