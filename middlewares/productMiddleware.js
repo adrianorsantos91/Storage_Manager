@@ -43,7 +43,7 @@ if (!quantity) {
  console.log(typeof 10.5);
 
  // typeof quantity === 'number'
- if (!Number.isInteger(quantity) || quantity < 1) {
+ if (!Number.isInteger(quantity) || quantity <= 0) {
   return res.status(422).send(
     { message: '"quantity" must be greater than or equal to 1' },
   );

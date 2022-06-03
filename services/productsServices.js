@@ -12,8 +12,8 @@ const getById = async (id) => {
     }
 };
 
-const create = async ({ name, quantity }) => {
-  const result = await productsModels.create(name, quantity);
+const create = ({ name, quantity }) => {
+  const result = productsModels.create(name, quantity);
   return result;
 };
 
