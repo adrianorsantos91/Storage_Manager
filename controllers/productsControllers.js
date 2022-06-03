@@ -23,7 +23,6 @@ const create = async (req, res) => {
   const productList = await productsService.getAll();
 
   productList.forEach((e) => {
-    console.log(e.name);
     if (e.name === name) {
       return res.status(409).json({ message: 'Product already exists' });
     }
@@ -33,10 +32,24 @@ const create = async (req, res) => {
   return res.status(201).json(product);
 };
 
+const updateById = async (req, res) => {
+  const { id } = req.params;
+  const productList = await productsService.getAll();
+  const result = await productsService.updateById(id, req.body);
+  productList.forEach((e) => {
+    if (e.id === id) {
+      return res.status(200).json(result);
+    }
+  });
+
+  return res.status(404).send({ message: 'Product not found' });
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  updateById,
 };
 
 // const getById = (req, res, next) => {
