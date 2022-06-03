@@ -17,8 +17,21 @@ const create = ({ name, quantity }) => {
 };
 
 const updateById = async (id, { name, quantity }) => {
-  const result = await productsModels.updateById(id, name, quantity);
+  const [result] = await productsModels.updateById(id, name, quantity);
+  console.log(result.changedRows);
+  if (!result.changedRows) {
+    return false;
+  }
   return result;
+};
+
+const deleteById = async (id) => {
+  const [result] = await productsModels.deleteById(id);
+  console.log(result.affectedRows);
+  if (!result.affectedRows) {
+    return false;
+  }
+  return true;
 };
 
 module.exports = {
@@ -26,4 +39,5 @@ module.exports = {
   getById,
   create,
   updateById,
+  deleteById,
 };
