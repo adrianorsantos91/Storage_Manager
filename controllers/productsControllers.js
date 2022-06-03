@@ -29,7 +29,7 @@ const create = async (req, res) => {
   }
 
   const product = await productsService.create(req.body);
-  return res.status(201).json(product);
+  res.status(201).json(product);
 };
 
 const updateById = async (req, res) => {
