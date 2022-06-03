@@ -27,7 +27,6 @@ const updateById = async (id, { name, quantity }) => {
 
 const deleteById = async (id) => {
   const [result] = await productsModels.deleteById(id);
-  console.log(result.affectedRows);
   if (!result.affectedRows) {
     return false;
   }
