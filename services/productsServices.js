@@ -2,7 +2,6 @@ const productsModels = require('../models/productsModels');
 
 const getAll = async () => {
   const [result] = await productsModels.getAll();
-  console.log(result);
   return result;
 };
 const getById = async (id) => {
@@ -17,8 +16,14 @@ const create = ({ name, quantity }) => {
   return result;
 };
 
+const updateById = async (id, { name, quantity }) => {
+  const result = await productsModels.updateById(id, name, quantity);
+  return result;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  updateById,
 };
