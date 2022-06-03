@@ -40,7 +40,6 @@ const validateQuantityProductsMiddleware = (req, res, next) => {
 if (!quantity) {
   return res.status(400).send({ message: '"quantity" is required' });
  }
- console.log(typeof 10.5);
 
  // typeof quantity === 'number'
  if (!Number.isInteger(quantity) || quantity <= 0) {
