@@ -22,11 +22,11 @@ const create = async (req, res) => {
   const { name } = req.body;
   const productList = await productsService.getAll();
 
-  productList.forEach((e) => {
-    if (e.name === name) {
-      return res.status(409).json({ message: 'Product already exists' });
-    }
-  });
+  const isExistsName = productList.find((e) => e.name === name);
+
+  if (isExistsName) {
+    return res.status(409).json({ message: 'Product already exists' });
+  }
 
   const product = await productsService.create(req.body);
   return res.status(201).json(product);
