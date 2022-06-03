@@ -1,4 +1,4 @@
-const validateProductIdMiddleware = (req, res, next) => {
+const validateProductIdSalesMiddleware = (req, res, next) => {
   const { productId } = req.body;
    if (!productId) {
      return res.status(400).send({ message: '"productId" is required' });
@@ -7,7 +7,7 @@ const validateProductIdMiddleware = (req, res, next) => {
    next();
 };
 
-const validateQuantityProductsMiddleware = (req, res, next) => {
+const validateQuantitySalesMiddleware = (req, res, next) => {
   const { quantity } = req.body;
 if (!quantity) {
   return res.status(400).send({ message: '"quantity" is required' });
@@ -24,6 +24,6 @@ if (!quantity) {
 };
 
 module.exports = {
-  validateProductIdMiddleware,
-  validateQuantityProductsMiddleware,
+  validateProductIdSalesMiddleware,
+  validateQuantitySalesMiddleware,
  };
