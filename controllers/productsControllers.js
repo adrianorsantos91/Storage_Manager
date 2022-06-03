@@ -1,7 +1,6 @@
 const productsService = require('../services/productsServices');
 
 const getAll = async (_req, res) => {
-  console.log('all');
   const productsList = await productsService.getAll();
   res.status(200).json(productsList);
 };
@@ -10,7 +9,6 @@ const getById = async (req, res) => {
   const { id } = req.params;
 
   const [productsList] = await productsService.getById(id);
-
   if (!productsList) {
    return res.status(404).json({ message: 'Product not found' });
   }
@@ -53,7 +51,6 @@ const updateById = async (req, res) => {
 const deleteById = async (req, res) => {
   const { id } = req.params;
   const result = await productsService.deleteById(id);
-  // const productList = await productsService.getAll();
 
   if (!result) {
     res.status(404).send({ message: 'Product not found' });
