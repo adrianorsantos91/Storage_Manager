@@ -30,7 +30,7 @@ const create = async (req, res) => {
   });
 
   const product = await productsService.create(req.body);
-  return res.status(200).json(product);
+  return res.status(201).json(product);
 };
 
 module.exports = {
