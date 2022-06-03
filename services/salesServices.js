@@ -18,6 +18,7 @@ const getAll = async () => {
 const getById = async (id) => {
     if (id) {
       const [result] = await salesModels.getById(id);
+      console.log('ServiceId', result);
       return result.map(changeSalesToCamelCase);
     }
 };

@@ -6,15 +6,13 @@ const getAll = async (_req, res) => {
 };
 
 const getById = async (req, res) => {
-  console.log('Aqui!!');
   const { id } = req.params;
-  console.log('controllerId', id);
   const saleId = await salesService.getById(id);
 
   if (!saleId || saleId.length === 0) {
     return res.status(404).json({ message: 'Sale not found' });
   }
-
+  console.log('ControllerId;', saleId);
   return res.status(200).json(saleId);
 };
 

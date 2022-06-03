@@ -6,8 +6,8 @@ const { validateNameProductsMiddleware,
 
 const router = express.Router();
 
-router.get('/', productsControllers.getAll);
 router.get('/:id', productsControllers.getById);
+router.get('/', productsControllers.getAll);
 router.post('/', validateNameProductsMiddleware,
 validateQuantityProductsMiddleware, productsControllers.create);
 router.put('/:id', validateNameProductsMiddleware,

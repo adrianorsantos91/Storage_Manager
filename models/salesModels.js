@@ -7,11 +7,8 @@ const getAll = () => connection.execute(
   ORDER BY sales.id`,
 );
 
-const getById = async (id) => {
-  console.log('id', id);
-  const result = await connection.execute(
+const getById = (id) => connection.execute(
   `SELECT
-    s.id,
     s.date,
     sl.product_id,
     sl.quantity
@@ -19,10 +16,6 @@ const getById = async (id) => {
   WHERE s.id = sl.sale_id AND s.id = ?
   ORDER BY s.id`, [id],
 );
-
-console.log('result', result);
-return result;
-};
 
 const create = async (salesData) => {
   const [result] = await connection.execute(
@@ -44,8 +37,23 @@ const create = async (salesData) => {
   };
 };
 
+const updateById = async (id, salesData) => {
+  await salesData.forEach(({ productId, quantity }) => {
+    connection.execute(
+      'UPDATE products SET product_id = ?, quantity = ? WHERE id = ?',
+      [id, productId, quantity],
+    );
+  });
+
+  return {
+    id,
+    itemUpdated: salesData,
+  };
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  updateById,
 };
