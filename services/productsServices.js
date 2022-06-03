@@ -18,11 +18,11 @@ const create = ({ name, quantity }) => {
 
 const updateById = async (id, { name, quantity }) => {
   const [result] = await productsModels.updateById(id, name, quantity);
-  console.log(result.changedRows);
+
   if (!result.changedRows) {
     return false;
   }
-  return result;
+  return true;
 };
 
 const deleteById = async (id) => {
