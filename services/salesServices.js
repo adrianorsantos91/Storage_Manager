@@ -28,8 +28,18 @@ const create = async (salesData) => {
   return result;
 };
 
+const updateById = async (id, salesData) => {
+  const [result] = await salesModels.updateById(id, salesData);
+  console.log('ServiceUpdateById', result);
+  if (!result.changedRows) {
+    return false;
+  }
+  return true;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  updateById,
 };
