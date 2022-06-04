@@ -39,13 +39,13 @@ const updateById = async (req, res) => {
     return res.status(404).send({ message: 'Product not found' });
   }
 
-  const objectUpdate = {
+  const productUpdate = {
     id,
     name,
     quantity,
   };
 
-  return res.status(200).json(objectUpdate);
+  return res.status(200).json(productUpdate);
 };
 
 const deleteById = async (req, res) => {
