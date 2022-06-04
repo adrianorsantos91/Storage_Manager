@@ -36,7 +36,7 @@ const updateById = (req, res) => {
   }
 
   const salesUpdate = {
-    saleId: id,
+    saleId: parseInt(id, 0),
     itemUpdated: salesData,
   };
 

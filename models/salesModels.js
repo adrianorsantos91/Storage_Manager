@@ -32,7 +32,7 @@ const create = async (salesData) => {
   });
 
   return {
-    id: +idSale,
+    id: +idSale, // '+' converter string para int
     itemsSold: salesData,
   };
 };
