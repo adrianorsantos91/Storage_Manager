@@ -38,17 +38,14 @@ const create = async (salesData) => {
 };
 
 const updateById = async (id, salesData) => {
-  await salesData.forEach(({ productId, quantity }) => {
+  console.log('modelsUpdateById', id, salesData);
+  const result = await salesData.map(({ productId, quantity }) =>
     connection.execute(
-      'UPDATE products SET product_id = ?, quantity = ? WHERE id = ?',
-      [id, productId, quantity],
-    );
-  });
-
-  return {
-    id,
-    itemUpdated: salesData,
-  };
+      'UPDATE sales_products SET product_id = ?, quantity = ? WHERE sale_id = ?',
+      [productId, quantity, id],
+    ));
+    console.log('modelsResult', result);
+    return result;
 };
 
 module.exports = {
