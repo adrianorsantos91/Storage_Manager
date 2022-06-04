@@ -25,8 +25,27 @@ const create = async (req, res) => {
   res.status(400).json({ message: `Algo esta errado: %s ${productList}` });
 };
 
+const updateById = (req, res) => {
+  const { id } = req.params;
+  const salesData = req.body;
+  console.log('ControllerSalesUpdateById', salesData);
+  const result = salesService.updateById(id, salesData);
+  console.log('ControllerUpdateById', result);
+  if (!result) {
+    return res.status(404).send({ message: 'Sales not found' });
+  }
+
+  const salesUpdate = {
+    saleId: id,
+    itemUpdated: salesData,
+  };
+
+  return res.status(200).json(salesUpdate);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  updateById,
 };
