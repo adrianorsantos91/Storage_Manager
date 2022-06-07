@@ -18,7 +18,6 @@ const getAll = async () => {
 const getById = async (id) => {
     if (id) {
       const [result] = await salesModels.getById(id);
-      console.log('ServiceId', result);
       return result.map(changeSalesToCamelCase);
     }
 };
@@ -30,7 +29,6 @@ const create = async (salesData) => {
 
 const updateById = async (id, salesData) => {
   const [result] = await salesModels.updateById(id, salesData);
-  console.log('ServiceUpdateById', result.changedRows);
   if (!result.changedRows) {
     return false;
   }
@@ -42,4 +40,5 @@ module.exports = {
   getById,
   create,
   updateById,
+  changeSalesToCamelCase,
 };
