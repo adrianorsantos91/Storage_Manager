@@ -1,61 +1,60 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
-
 const productsServices = require('../../../services/productsServices');
-const connection = require('../../../models/connection');
+const productsModels = require('../../../models/productsModels');
 
-describe('1 - Busca todos os dados dos produtos no DB', () => {
+describe('1 - Busca todos os dados dos produtos no DB [Service]', () => {
   describe('Quando não existe nenhum produto', () => {
-    before(async () => {
-      sinon.stub(connection, 'execute').resolves([[]]);
+    before(() => {
+      sinon.stub(productsModels, 'getAll').resolves([[]]);
     });
 
-    after(async () => {
-      connection.execute.restore();
+    after(() => {
+      productsModels.getAll.restore();
     });
 
     it('Retornar um array', async () => {
-      const [resultado] = await productsServices.getAll();
+      const resultado = await productsServices.getAll();
       expect(resultado).to.be.an('array');
     });
 
     it('Array esta vazio', async () => {
-      const [resultado] = await productsServices.getAll();
+      const resultado = await productsServices.getAll();
       expect(resultado).to.be.empty;
     });
   });
   describe('Quando existe produtos', () => {
-    before(async () => {
+    before(() => {
       const produtos = {
           "id": 1,
           "name": "Martelo de Thor",
           "quantity": 10
         };
 
-      sinon.stub(connection, 'execute').resolves([[produtos]]);
+        sinon.stub(productsModels, 'getAll').resolves([[produtos]]);
     });
 
-    after(async () => {
-      connection.execute.restore();
+    after(() => {
+      productsModels.getAll.restore();
     });
 
     it('Retornar um array', async () => {
-      const [resultado] = await productsServices.getAll();
+      const resultado = await productsServices.getAll();
       expect(resultado).to.be.an('array');
     });
 
     it('Array não esta vazio', async () => {
-      const [resultado] = await productsServices.getAll();
+      const resultado = await productsServices.getAll();
       expect(resultado).to.not.be.empty;
     });
 
     it('O array possui itens do tipo objeto', async () => {
-      const [resultado] =  await productsServices.getAll();
+      const resultado =  await productsServices.getAll();
       expect(resultado[0]).to.be.an('object');
     });
 
     it(`O objeto possui as propriedades: "id", "name" e "quantity"`, async () => {
-      const [resultado] =  await productsServices.getAll();
+      const resultado =  await productsServices.getAll();
       expect(resultado[0]).to.include.all.keys("id", "name", "quantity");
   });
   });
@@ -63,56 +62,56 @@ describe('1 - Busca todos os dados dos produtos no DB', () => {
 
 describe('2 - Busca todos os dados por id no DB', () => {
   describe('Quando não existe nenhum produto', () => {
-    before(async () => {
-      sinon.stub(connection, 'execute').resolves([[]]);
+    before(() => {
+      sinon.stub(productsModels, 'getById').resolves([[]]);
     });
 
-    after(async () => {
-      connection.execute.restore();
+    after(() => {
+      productsModels.getById.restore();
     });
 
     it('Retornar um array', async () => {
-      const [resultado] = await productsServices.getById(1);
+      const resultado = await productsServices.getById(1);
       expect(resultado).to.be.an('array');
     });
 
     it('Array esta vazio', async () => {
-      const [resultado] = await productsServices.getById(1);
+      const resultado = await productsServices.getById(1);
       expect(resultado).to.be.empty;
     });
   });
   describe('Quando existe produtos', () => {
-    before(async () => {
+    before(() => {
       const produtos = {
           "id": 1,
           "name": "Martelo de Thor",
           "quantity": 10
         };
 
-      sinon.stub(connection, 'execute').resolves([[produtos]]);
+        sinon.stub(productsModels, 'getById').resolves([[produtos]]);
     });
 
-    after(async () => {
-      connection.execute.restore();
+    after(() => {
+      productsModels.getById.restore();
     });
 
     it('Retornar um array', async () => {
-      const [resultado] = await productsServices.getById(1);
+      const resultado = await productsServices.getById(1);
       expect(resultado).to.be.an('array');
     });
 
     it('Array não esta vazio', async () => {
-      const [resultado] = await productsServices.getById(1);
+      const resultado = await productsServices.getById(1);
       expect(resultado).to.not.be.empty;
     });
 
     it('O array possui itens do tipo objeto', async () => {
-      const [resultado] =  await productsServices.getById(1);
+      const resultado =  await productsServices.getById(1);
       expect(resultado[0]).to.be.an('object');
     });
 
     it(`O objeto possui as propriedades: "id", "name" e "quantity"`, async () => {
-      const [resultado] =  await productsServices.getById(1);
+      const resultado =  await productsServices.getById(1);
       expect(resultado[0]).to.include.all.keys("id", "name", "quantity");
   });
   });
