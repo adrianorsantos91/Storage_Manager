@@ -13,6 +13,7 @@ const getById = async (id) => {
 
 const create = ({ name, quantity }) => {
   const result = productsModels.create(name, quantity);
+  if (!result) return false;
   return result;
 };
 
