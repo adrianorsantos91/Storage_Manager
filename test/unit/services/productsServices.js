@@ -146,8 +146,8 @@ describe('3 - Insere novos produtos no DB', () => {
     };
 
     before(async () => {
-      const ID_TEST = 1;
-      sinon.stub(productsServices, "create").resolves({ id: ID_TEST});
+      const ID_PRODUCT = 1;
+      sinon.stub(productsServices, "create").resolves({ id: ID_PRODUCT});
     });
 
     after(async () => {
@@ -168,11 +168,6 @@ describe('3 - Insere novos produtos no DB', () => {
       const response =  await productsServices.create(produto);
       expect(response).to.have.a.property('id');
     });
-
-    it(`O objeto possui o "id" do novo produto`, async () => {
-      const response =  await productsServices.create(produto);
-      expect(response).to.have.a.property('id');
-    })
   });
 })
 
