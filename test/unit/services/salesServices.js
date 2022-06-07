@@ -194,6 +194,7 @@ describe('3 - Insere novas vendas no DB', () => {
 
 describe('4 - Atualizar as vendas no DB', () => {
 
+  /*
   // describe('Quando não existe a venda chamando model', () => {
   //   let executeSpy;
   //   beforeEach(() => {
@@ -239,7 +240,7 @@ describe('4 - Atualizar as vendas no DB', () => {
   //     expect(executeSpy.getCalls()[0].args[1]).to.be.an('string');
   //     expect(executeSpy.getCalls()[0].args[2]).to.be.an('number');
   //   });
-  // });
+  // }); */
   describe('Quando não existe a venda', () => {
     let executeSpy;
     beforeEach(() => {
