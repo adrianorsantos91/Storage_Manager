@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const productsModels = require('../../../models/productsModels');
 const connection = require('../../../models/connection');
 
-describe('1 - Busca todos os dados do DB', () => {
+describe('1 - Busca todos os dados dos produtos no DB', () => {
   describe('Quando não existe nenhum produto', () => {
     before(async () => {
       sinon.stub(connection, 'execute').resolves([[]]);

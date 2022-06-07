@@ -38,7 +38,6 @@ const create = async (salesData) => {
 };
 
 const updateById = async (id, salesData) => {
-  console.log('modelsUpdateById', id, salesData);
   const result = await salesData.map(({ productId, quantity }) =>
     connection.execute(
       'UPDATE sales_products SET product_id = ?, quantity = ? WHERE sale_id = ?',
