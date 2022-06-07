@@ -30,7 +30,7 @@ const create = async (salesData) => {
 
 const updateById = async (id, salesData) => {
   const [result] = await salesModels.updateById(id, salesData);
-  console.log('ServiceUpdateById', result);
+  console.log('ServiceUpdateById', result.changedRows);
   if (!result.changedRows) {
     return false;
   }
