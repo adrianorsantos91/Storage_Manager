@@ -118,21 +118,21 @@ describe('2 - Busca todos os dados por id no DB', () => {
 });
 
 describe('3 - Insere novos produtos no DB', () => {
-  const produto = {
-    "name": "Espada do Jaspion",
-    "quantity": 10
-  };
-
-  before(async () => {
-    const execute = [{ id: 1 }];
-    sinon.stub(connection, 'execute').resolves([[execute]]);
-  });
-
-  after(async () => {
-    connection.execute.restore();
-  });
-
   describe('Quando é inserido com sucesso', async () => {
+    const produto = {
+      "name": "Espada do Jaspion",
+      "quantity": 10
+    };
+
+    before(async () => {
+      const ID_TEST = 1;
+      sinon.stub(productsServices, "create").resolves({ id: ID_TEST});
+    });
+
+    after(async () => {
+      productsServices.create.restore();
+    });
+
     it('retorna um objeto', async () => {
       const response = await productsServices.create(produto);
       expect(response).to.be.a('object');
@@ -143,22 +143,66 @@ describe('3 - Insere novos produtos no DB', () => {
       expect(response).to.not.be.empty;
     });
 
-    it(`O objeto possui as propriedades: "id", "name" e "quantity"`, async () => {
+    it(`O objeto possui o "id" do novo produto`, async () => {
       const response =  await productsServices.create(produto);
-      expect(response).to.include.all.keys("id", "name", "quantity");
+      expect(response).to.have.a.property('id');
   })
 });
 })
 
 describe('4 - Atualizar produtos no DB', () => {
-  describe('Quando não existe o produto', () => {
+  describe('Quando não existe o produto chamando model', () => {
     let executeSpy;
     beforeEach(() => {
-        executeSpy = sinon.stub(connection, 'execute').resolves([[{ affectedRows: 0 }]]);
+      executeSpy = sinon.stub(productsModels, "updateById").resolves([[{ changedRows: 0 }]]);
     });
 
     afterEach(() => {
-        connection.execute.restore();
+      productsModels.updateById.restore();
+    });
+
+    it('Retorna o resultado `false`',  async () => {
+      const resultado = await productsServices.updateById(1, { name: "name", quantity: 1 });
+      expect(resultado).to.be.an('boolean');
+      expect(resultado).to.be.equal(false);
+      expect(executeSpy.callCount).to.be.equal(1);
+
+      expect(executeSpy.getCalls()[0].args.length).to.be.equal(3);
+      expect(executeSpy.getCalls()[0].args[0]).to.be.an('number');
+      expect(executeSpy.getCalls()[0].args[1]).to.be.an('string');
+      expect(executeSpy.getCalls()[0].args[2]).to.be.an('number');
+    });
+  });
+  describe('Quando existe o produto chamando model', () => {
+    let executeSpy;
+    beforeEach(() => {
+      executeSpy = sinon.stub(productsModels, "updateById").resolves([[{ changedRows: 1 }]]);
+    });
+
+    afterEach(() => {
+      productsModels.updateById.restore();
+    });
+
+    it('Retorna o resultado `true`',  async () => {
+      const resultado = await productsServices.updateById(1, { name: "name", quantity: 1 });
+      expect(resultado).to.be.an('boolean');
+      expect(resultado).to.be.equal(false);
+      expect(executeSpy.callCount).to.be.equal(1);
+
+      expect(executeSpy.getCalls()[0].args.length).to.be.equal(3);
+      expect(executeSpy.getCalls()[0].args[0]).to.be.an('number');
+      expect(executeSpy.getCalls()[0].args[1]).to.be.an('string');
+      expect(executeSpy.getCalls()[0].args[2]).to.be.an('number');
+    });
+  });
+  describe('Quando não existe o produto', () => {
+    let executeSpy;
+    beforeEach(() => {
+      executeSpy = sinon.stub(productsServices, "updateById").resolves([[{ changedRows: 0 }]]);
+    });
+
+    afterEach(() => {
+      productsServices.updateById.restore();
     });
 
     it('Retornar um array', async () => {
@@ -173,28 +217,22 @@ describe('4 - Atualizar produtos no DB', () => {
       expect(resultado[0]).to.be.an('object');
     });
 
-    it('retornar `affectedRows` igual a 0', async () => {
+    it('retornar `changedRows` igual a 0', async () => {
       const [resultado] = await productsServices.updateById(1);
-      expect(resultado[0]).to.has.key('affectedRows');
-      expect(resultado[0].affectedRows).to.be.equal(0);
+      expect(resultado[0]).to.has.key('changedRows');
+      expect(resultado[0].changedRows).to.be.equal(0);
       expect(executeSpy.callCount).to.be.equal(1);
     });
-
-    it('verifica se está executando uma Query `UPDATE`',  async () => {
-      await productsServices.updateById(1);
-      expect(executeSpy.callCount).to.be.equal(1);
-      expect(executeSpy.getCalls()[0].firstArg).to.contain("UPDATE");
-  });
   });
   describe('Quando existe o produto', () => {
     let executeSpy;
 
     beforeEach(() => {
-        executeSpy = sinon.stub(connection, 'execute').resolves([[{ affectedRows: 1 }]]);
+      executeSpy = sinon.stub(productsServices, 'updateById').resolves([[{ changedRows: 1 }]]);
     });
 
     afterEach(() => {
-        connection.execute.restore();
+      productsServices.updateById.restore();
     });
 
     it('Retornar um array', async () => {
@@ -209,19 +247,13 @@ describe('4 - Atualizar produtos no DB', () => {
       expect(resultado[0]).to.be.an('object');
     });
 
-    it('retornar `affectedRows` igual a 1', async () => {
+    it('retornar `changedRows` igual a 1', async () => {
       const [resultado] = await productsServices.updateById(1);
-      expect(resultado[0]).to.has.key('affectedRows');
-      expect(resultado[0].affectedRows).to.be.equal(1);
+      expect(resultado[0]).to.has.key('changedRows');
+      expect(resultado[0].changedRows).to.be.equal(1);
       expect(executeSpy.callCount).to.be.equal(1);
     });
-
-    it('verifica se está executando uma Query `UPDATE`',  async () => {
-      await productsServices.updateById(1);
-      expect(executeSpy.callCount).to.be.equal(1);
-      expect(executeSpy.getCalls()[0].firstArg).to.contain("UPDATE");
   });
-});
 });
 
 describe('5 - Delete produtos no DB', () => {
