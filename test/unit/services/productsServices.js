@@ -118,6 +118,27 @@ describe('2 - Busca todos os dados por id no DB', () => {
 });
 
 describe('3 - Insere novos produtos no DB', () => {
+
+  describe('Quando é inserido sem sucesso', async () => {
+    const produto = {};
+    before(() => {
+      sinon.stub(productsServices, "create").resolves(false);
+    });
+
+    after(() => {
+      productsServices.create.restore();
+    });
+
+    it('retorna um bollean', async () => {
+      const response = await productsServices.create(produto);
+      expect(response).to.be.a('boolean');
+    });
+
+    it('retorno é `false`', async () => {
+      const response = await productsServices.create(produto);
+      expect(response).to.be.equal(false);
+    });
+  });
   describe('Quando é inserido com sucesso', async () => {
     const produto = {
       "name": "Espada do Jaspion",
@@ -146,8 +167,13 @@ describe('3 - Insere novos produtos no DB', () => {
     it(`O objeto possui o "id" do novo produto`, async () => {
       const response =  await productsServices.create(produto);
       expect(response).to.have.a.property('id');
-  })
-});
+    });
+
+    it(`O objeto possui o "id" do novo produto`, async () => {
+      const response =  await productsServices.create(produto);
+      expect(response).to.have.a.property('id');
+    })
+  });
 })
 
 describe('4 - Atualizar produtos no DB', () => {
@@ -258,13 +284,13 @@ describe('4 - Atualizar produtos no DB', () => {
 
 describe('5 - Delete produtos no DB', () => {
   describe('Quando não existe o produto', () => {
-    let executeSpy;
+    let deleteByIdSpy;
     beforeEach(() => {
-        executeSpy = sinon.stub(connection, 'execute').resolves([[{ affectedRows: 0 }]]);
+      deleteByIdSpy = sinon.stub(productsServices, 'deleteById').resolves([[{ affectedRows: 0 }]]);
     });
 
     afterEach(() => {
-        connection.execute.restore();
+      productsServices.deleteById.restore();
     });
 
     it('Retornar um array', async () => {
@@ -283,24 +309,17 @@ describe('5 - Delete produtos no DB', () => {
       const [resultado] = await productsServices.deleteById(1);
       expect(resultado[0]).to.has.key('affectedRows');
       expect(resultado[0].affectedRows).to.be.equal(0);
-      expect(executeSpy.callCount).to.be.equal(1);
-    });
-
-    it('verifica se está executando uma Query `DELETE`',  async () => {
-      await productsServices.deleteById(1);
-      expect(executeSpy.callCount).to.be.equal(1);
-      expect(executeSpy.getCalls()[0].firstArg).to.contain("DELETE");
+      expect(deleteByIdSpy.callCount).to.be.equal(1);
     });
   });
   describe('Quando existe o produto', () => {
-    let executeSpy;
-
+    let deleteByIdSpy;
     beforeEach(() => {
-        executeSpy = sinon.stub(connection, 'execute').resolves([[{ affectedRows: 1 }]]);
+      deleteByIdSpy = sinon.stub(productsServices, 'deleteById').resolves([[{ affectedRows: 1 }]]);
     });
 
     afterEach(() => {
-        connection.execute.restore();
+      productsServices.deleteById.restore();
     });
 
     it('Retornar um array', async () => {
@@ -319,14 +338,8 @@ describe('5 - Delete produtos no DB', () => {
       const [resultado] = await productsServices.deleteById(1);
       expect(resultado[0]).to.has.key('affectedRows');
       expect(resultado[0].affectedRows).to.be.equal(1);
-      expect(executeSpy.callCount).to.be.equal(1);
+      expect(deleteByIdSpy.callCount).to.be.equal(1);
     });
-
-    it('verifica se está executando uma Query `DELETE`',  async () => {
-      await productsServices.deleteById(1);
-      expect(executeSpy.callCount).to.be.equal(1);
-      expect(executeSpy.getCalls()[0].firstArg).to.contain("DELETE");
-  });
 });
 });
 
