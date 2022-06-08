@@ -66,18 +66,3 @@ module.exports = {
   updateById,
   deleteById,
 };
-
-// const getById = (req, res, next) => {
-//   // const errorMessage = {
-//   //   status: 200,
-//   //   message: 'Funcionou',
-//   // };
-
-//   try {
-//     res.status(200).json({ message: 'ControllerId' });
-//   } catch (error) {
-//     next(error);
-//   }
-
-//   // throw error;
-// };
