@@ -2,7 +2,7 @@ const productsService = require('../services/productsServices');
 
 const getAll = async (_req, res) => {
   const productsList = await productsService.getAll();
-  res.status(200).json(productsList);
+  return res.status(200).json(productsList);
 };
 
 const getById = async (req, res) => {
@@ -13,7 +13,7 @@ const getById = async (req, res) => {
    return res.status(404).json({ message: 'Product not found' });
   }
 
-  res.status(200).json(productsList);
+  return res.status(200).json(productsList);
 };
 
 const create = async (req, res) => {
@@ -27,7 +27,7 @@ const create = async (req, res) => {
   }
 
   const product = await productsService.create(req.body);
-  res.status(201).json(product);
+  return res.status(201).json(product);
 };
 
 const updateById = async (req, res) => {
@@ -53,7 +53,7 @@ const deleteById = async (req, res) => {
   const result = await productsService.deleteById(id);
 
   if (!result) {
-    res.status(404).send({ message: 'Product not found' });
+    return res.status(404).send({ message: 'Product not found' });
   }
 
   return res.status(204).end();
