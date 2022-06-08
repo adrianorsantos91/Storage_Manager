@@ -85,10 +85,12 @@ describe('3 - Insere novos produtos no DB', async () => {
       response.json = sinon.stub().returns();
 
       sinon.stub(productsServices, "create").resolves(true);
+      sinon.stub(productsServices, "getAll").resolves(productsMock);
     });
 
     after(() => {
       productsServices.create.restore();
+      productsServices.getAll.restore();
     });
 
     it("é chamado o status com o código 201", async () => {
