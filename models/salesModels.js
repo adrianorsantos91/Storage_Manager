@@ -43,13 +43,18 @@ const updateById = async (id, salesData) => {
       'UPDATE sales_products SET product_id = ?, quantity = ? WHERE sale_id = ?',
       [productId, quantity, id],
     ));
-    console.log('modelsResult', result);
     return result;
 };
+
+const deleteById = (id) => connection.execute(
+  'DELETE FROM products WHERE id = ?',
+  [id],
+);
 
 module.exports = {
   getAll,
   getById,
   create,
   updateById,
+  deleteById,
 };
