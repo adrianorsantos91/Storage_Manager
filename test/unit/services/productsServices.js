@@ -122,11 +122,11 @@ describe('3 - Insere novos produtos no DB', () => {
   describe('Quando é inserido sem sucesso', async () => {
     const produto = {};
     before(() => {
-      sinon.stub(productsServices, "create").resolves(false);
+      sinon.stub(productsModels, "create").resolves(false);
     });
 
     after(() => {
-      productsServices.create.restore();
+      productsModels.create.restore();
     });
 
     it('retorna um bollean', async () => {
@@ -147,11 +147,11 @@ describe('3 - Insere novos produtos no DB', () => {
 
     before(async () => {
       const ID_PRODUCT = 1;
-      sinon.stub(productsServices, "create").resolves({ id: ID_PRODUCT});
+      sinon.stub(productsModels, "create").resolves({ id: ID_PRODUCT});
     });
 
     after(async () => {
-      productsServices.create.restore();
+      productsModels.create.restore();
     });
 
     it('retorna um objeto', async () => {
@@ -175,7 +175,7 @@ describe('4 - Atualizar produtos no DB', () => {
   describe('Quando não existe o produto chamando model', () => {
     let executeSpy;
     beforeEach(() => {
-      executeSpy = sinon.stub(productsModels, "updateById").resolves([[{ changedRows: 0 }]]);
+      executeSpy = sinon.stub(productsModels, "updateById").resolves([{ changedRows: 0 }]);
     });
 
     afterEach(() => {
@@ -197,7 +197,7 @@ describe('4 - Atualizar produtos no DB', () => {
   describe('Quando existe o produto chamando model', () => {
     let executeSpy;
     beforeEach(() => {
-      executeSpy = sinon.stub(productsModels, "updateById").resolves([[{ changedRows: 1 }]]);
+      executeSpy = sinon.stub(productsModels, "updateById").resolves([{ changedRows: 1 }]);
     });
 
     afterEach(() => {
@@ -207,7 +207,7 @@ describe('4 - Atualizar produtos no DB', () => {
     it('Retorna o resultado `true`',  async () => {
       const resultado = await productsServices.updateById(1, { name: "name", quantity: 1 });
       expect(resultado).to.be.an('boolean');
-      expect(resultado).to.be.equal(false);
+      expect(resultado).to.be.equal(true);
       expect(executeSpy.callCount).to.be.equal(1);
 
       expect(executeSpy.getCalls()[0].args.length).to.be.equal(3);
@@ -219,7 +219,7 @@ describe('4 - Atualizar produtos no DB', () => {
   describe('Quando não existe o produto', () => {
     let executeSpy;
     beforeEach(() => {
-      executeSpy = sinon.stub(productsServices, "updateById").resolves([[{ changedRows: 0 }]]);
+      executeSpy = sinon.stub(productsServices, "updateById").resolves([[{ affectedRows: 0 }]]);
     });
 
     afterEach(() => {
@@ -240,8 +240,8 @@ describe('4 - Atualizar produtos no DB', () => {
 
     it('retornar `changedRows` igual a 0', async () => {
       const [resultado] = await productsServices.updateById(1);
-      expect(resultado[0]).to.has.key('changedRows');
-      expect(resultado[0].changedRows).to.be.equal(0);
+      expect(resultado[0]).to.has.key('affectedRows');
+      expect(resultado[0].affectedRows).to.be.equal(0);
       expect(executeSpy.callCount).to.be.equal(1);
     });
   });
@@ -249,7 +249,7 @@ describe('4 - Atualizar produtos no DB', () => {
     let executeSpy;
 
     beforeEach(() => {
-      executeSpy = sinon.stub(productsServices, 'updateById').resolves([[{ changedRows: 1 }]]);
+      executeSpy = sinon.stub(productsServices, 'updateById').resolves([[{ affectedRows: 1 }]]);
     });
 
     afterEach(() => {
@@ -270,8 +270,8 @@ describe('4 - Atualizar produtos no DB', () => {
 
     it('retornar `changedRows` igual a 1', async () => {
       const [resultado] = await productsServices.updateById(1);
-      expect(resultado[0]).to.has.key('changedRows');
-      expect(resultado[0].changedRows).to.be.equal(1);
+      expect(resultado[0]).to.has.key('affectedRows');
+      expect(resultado[0].affectedRows).to.be.equal(1);
       expect(executeSpy.callCount).to.be.equal(1);
     });
   });
