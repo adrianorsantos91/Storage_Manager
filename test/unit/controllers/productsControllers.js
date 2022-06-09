@@ -161,7 +161,6 @@ describe('5 - Delete produtos no DB', () => {
 
     it('é chamado o send com a mensagem "Dados inválidos"', async () => {
       await productsControllers.deleteById(request, response);
-      console.log(response.end);
       expect(response.end.calledWith()).to.be.equal(true);
     });
 });
