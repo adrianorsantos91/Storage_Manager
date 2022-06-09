@@ -35,10 +35,19 @@ const updateById = async (id, salesData) => {
   return true;
 };
 
+const deleteById = async (id) => {
+  const [result] = await salesModels.deleteById(id);
+  if (!result.affectedRows) {
+    return false;
+  }
+  return true;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   updateById,
+  deleteById,
   changeSalesToCamelCase,
 };
