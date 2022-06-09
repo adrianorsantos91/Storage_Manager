@@ -38,11 +38,13 @@ const create = async (salesData) => {
 };
 
 const updateById = async (id, salesData) => {
-  const result = await salesData.map(({ productId, quantity }) =>
-    connection.execute(
+  const [result] = await salesData.map(async ({ productId, quantity }) => {
+    const array = await connection.execute(
       'UPDATE sales_products SET product_id = ?, quantity = ? WHERE sale_id = ?',
       [productId, quantity, id],
-    ));
+      );
+     return array;
+  });
     return result;
 };
 
