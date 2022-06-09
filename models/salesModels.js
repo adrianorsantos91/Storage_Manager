@@ -47,7 +47,7 @@ const updateById = async (id, salesData) => {
 };
 
 const deleteById = (id) => connection.execute(
-  'DELETE FROM products WHERE id = ?',
+  'DELETE FROM sales_products WHERE sale_id = ?',
   [id],
 );
 
