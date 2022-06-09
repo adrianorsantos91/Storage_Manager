@@ -194,53 +194,50 @@ describe('3 - Insere novas vendas no DB', () => {
 
 describe('4 - Atualizar as vendas no DB', () => {
 
-  /*
-  // describe('Quando não existe a venda chamando model', () => {
-  //   let executeSpy;
-  //   beforeEach(() => {
-  //     executeSpy = sinon.stub(salesModels, "updateById").resolves([[{ changedRows: 0 }]]);
-  //   });
+  describe('Quando não existe a venda chamando model', () => {
+    let executeSpy;
+    beforeEach(() => {
+      executeSpy = sinon.stub(salesModels, "updateById").resolves([{ changedRows: 0 }]);
+    });
 
-  //   afterEach(() => {
-  //     salesModels.updateById.restore();
-  //   });
+    afterEach(() => {
+      salesModels.updateById.restore();
+    });
 
-  //   it('Retorna o resultado `false`',  async () => {
-  //     const salesData = [{ name: "name", quantity: 1 }];
-  //     const [resultado] = await salesModels.updateById(1, salesData);
-  //     console.log('update: %s', resultado[0]);
-  //     expect(resultado).to.be.an('boolean');
-  //     expect(resultado).to.be.equal(false);
-  //     expect(executeSpy.callCount).to.be.equal(1);
+    it('Retorna o resultado `false`',  async () => {
+      const salesData = [{ 'productId': 5, 'quantity': 1 }];
+      const resultado = await salesServices.updateById(1, salesData);
+      expect(resultado).to.be.an('boolean');
+      expect(resultado).to.be.equal(false);
+      expect(executeSpy.callCount).to.be.equal(1);
 
-  //     expect(executeSpy.getCalls()[0].args.length).to.be.equal(2);
-  //     // expect(executeSpy.getCalls()[0].args[0]).to.be.an('number');
-  //     // expect(executeSpy.getCalls()[0].args[1]).to.be.an('number');
-  //     // expect(executeSpy.getCalls()[0].args[2]).to.be.an('number');
-  //   });
-  // });
-  // describe('Quando existe a venda chamando model', () => {
-  //   let executeSpy;
-  //   beforeEach(() => {
-  //     executeSpy = sinon.stub(salesModels, "updateById").resolves([[{ changedRows: 1 }]]);
-  //   });
+      expect(executeSpy.getCalls()[0].args.length).to.be.equal(2);
+      expect(executeSpy.getCalls()[0].args[0]).to.be.an('number');
+      expect(executeSpy.getCalls()[0].args[1]).to.be.an('array');
+    });
+  });
+  describe('Quando existe a venda chamando model', () => {
+    let executeSpy;
+    beforeEach(() => {
+      executeSpy = sinon.stub(salesModels, "updateById").resolves([{ changedRows: 1 }]);
+    });
 
-  //   afterEach(() => {
-  //     salesModels.updateById.restore();
-  //   });
+    afterEach(() => {
+      salesModels.updateById.restore();
+    });
 
-  //   it('Retorna o resultado `true`',  async () => {
-  //     const [resultado] = await salesModels.updateById(1, { name: "name", quantity: 1 });
-  //     expect(resultado).to.be.an('boolean');
-  //     expect(resultado).to.be.equal(false);
-  //     expect(executeSpy.callCount).to.be.equal(1);
+    it('Retorna o resultado `true`',  async () => {
+      const salesData = [{ 'productId': 5, 'quantity': 1 }];
+      const resultado = await salesServices.updateById(1, salesData);
+      expect(resultado).to.be.an('boolean');
+      expect(resultado).to.be.equal(true);
+      expect(executeSpy.callCount).to.be.equal(1);
 
-  //     expect(executeSpy.getCalls()[0].args.length).to.be.equal(3);
-  //     expect(executeSpy.getCalls()[0].args[0]).to.be.an('number');
-  //     expect(executeSpy.getCalls()[0].args[1]).to.be.an('string');
-  //     expect(executeSpy.getCalls()[0].args[2]).to.be.an('number');
-  //   });
-  // }); */
+      expect(executeSpy.getCalls()[0].args.length).to.be.equal(2);
+      expect(executeSpy.getCalls()[0].args[0]).to.be.an('number');
+      expect(executeSpy.getCalls()[0].args[1]).to.be.an('array');
+    });
+  });
   describe('Quando não existe a venda', () => {
     let executeSpy;
     beforeEach(() => {
@@ -306,59 +303,37 @@ describe('5 - Delete vendas no DB', () => {
   describe('Quando não existe o produto', () => {
     let deleteByIdSpy;
     beforeEach(() => {
-      deleteByIdSpy = sinon.stub(salesServices, 'deleteById').resolves([[{ affectedRows: 0 }]]);
+      deleteByIdSpy = sinon.stub(salesModels, 'deleteById').resolves([{ affectedRows: 0 }]);
     });
 
     afterEach(() => {
-      salesServices.deleteById.restore();
-    });
-
-    it('Retornar um array', async () => {
-      const [resultado] =  await salesServices.deleteById(1);
-      expect(resultado).to.not.be.empty;
-      expect(resultado).to.be.an('array');
-    });
-
-    it('Retornar um objeto', async () => {
-      const [resultado] =  await salesServices.deleteById(1);
-      expect(resultado).to.not.be.empty;
-      expect(resultado[0]).to.be.an('object');
+      salesModels.deleteById.restore();
     });
 
     it('retornar `affectedRows` igual a 0', async () => {
-      const [resultado] = await salesServices.deleteById(1);
-      expect(resultado[0]).to.has.key('affectedRows');
-      expect(resultado[0].affectedRows).to.be.equal(0);
+      const resultado = await salesServices.deleteById(1);
+      expect(resultado).to.be.an('boolean');
+      expect(resultado).to.be.equal(false);
       expect(deleteByIdSpy.callCount).to.be.equal(1);
+      expect(deleteByIdSpy.getCalls()[0].args.length).to.be.equal(1);
+      expect(deleteByIdSpy.getCalls()[0].args[0]).to.be.an('number');
     });
   });
   describe('Quando existe o produto', () => {
     let deleteByIdSpy;
     beforeEach(() => {
-      deleteByIdSpy = sinon.stub(salesServices, 'deleteById').resolves([[{ affectedRows: 1 }]]);
+      deleteByIdSpy = sinon.stub(salesModels, 'deleteById').resolves([{ affectedRows: 1 }]);
     });
 
     afterEach(() => {
-      salesServices.deleteById.restore();
-    });
-
-    it('Retornar um array', async () => {
-      const [resultado] =  await salesServices.deleteById(1);
-      expect(resultado).to.not.be.empty;
-      expect(resultado).to.be.an('array');
-    });
-
-    it('Retornar um objeto', async () => {
-      const [resultado] =  await salesServices.deleteById(1);
-      expect(resultado).to.not.be.empty;
-      expect(resultado[0]).to.be.an('object');
+      salesModels.deleteById.restore();
     });
 
     it('retornar `affectedRows` igual a 1', async () => {
-      const [resultado] = await salesServices.deleteById(1);
-      expect(resultado[0]).to.has.key('affectedRows');
-      expect(resultado[0].affectedRows).to.be.equal(1);
+      const resultado = await salesServices.deleteById(1);
       expect(deleteByIdSpy.callCount).to.be.equal(1);
+      expect(deleteByIdSpy.getCalls()[0].args.length).to.be.equal(1);
+      expect(deleteByIdSpy.getCalls()[0].args[0]).to.be.an('number');
     });
 });
 });
