@@ -134,32 +134,32 @@ describe('4 - Atualizar as vendas no DB', async  () => {
     });
 });
 
-// describe('5 - Delete produtos no DB', () => {
-//   const response = {};
-//     const request = {};
+describe('5 - Delete produtos no DB', () => {
+  const response = {};
+    const request = {};
 
-//     before(() => {
-//       request.params = { id: 1};
-//       response.status = sinon.stub().returns(response);
-//       response.json = sinon.stub().returns();
-//       response.end = sinon.stub().returns();
+    before(() => {
+      request.params = { id: 1};
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+      response.end = sinon.stub().returns();
 
-//       sinon.stub(salesServices, 'deleteById').resolves({});
-//     })
+      sinon.stub(salesServices, 'deleteById').resolves({});
+    })
 
-//     after(() => {
-//       salesServices.deleteById.restore();
-//     });
+    after(() => {
+      salesServices.deleteById.restore();
+    });
 
-//     it('é chamado o método "status" passando o código 204', async () => {
-//       await salesControllers.deleteById(request, response);
+    it('é chamado o método "status" passando o código 204', async () => {
+      await salesControllers.deleteById(request, response);
 
-//       expect(response.status.calledWith(204)).to.be.equal(true);
-//     });
+      expect(response.status.calledWith(204)).to.be.equal(true);
+    });
 
-//     it('é chamado o send com a mensagem "Dados inválidos"', async () => {
-//       await salesControllers.deleteById(request, response);
-//       console.log(response.end);
-//       expect(response.end.calledWith()).to.be.equal(true);
-//     });
-// });
+    it('é chamado o send com a mensagem "Dados inválidos"', async () => {
+      await salesControllers.deleteById(request, response);
+      console.log(response.end);
+      expect(response.end.calledWith()).to.be.equal(true);
+    });
+});
