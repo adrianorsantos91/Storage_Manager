@@ -169,7 +169,7 @@ describe('3 - Insere novos produtos no DB', async () => {
 });
 
 describe('4 - Atualizar as vendas pelo id no DB', async  () => {
-  describe('quando é deletado sem sucesso', () => {
+ describe('quando não é atualizado com sucesso', () => {
     const response = {};
     const request = {};
 
@@ -195,7 +195,7 @@ describe('4 - Atualizar as vendas pelo id no DB', async  () => {
       await salesControllers.updateById(request, response);
       expect(response.json.calledWith({ message: 'Sale not found' })).to.be.equal(true);
     });
-  })
+  });
   describe('quando é atualizado com sucesso', () => {
     const response = {};
     const request = {};

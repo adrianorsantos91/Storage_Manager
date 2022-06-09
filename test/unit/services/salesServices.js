@@ -331,6 +331,8 @@ describe('5 - Delete vendas no DB', () => {
 
     it('retornar `affectedRows` igual a 1', async () => {
       const resultado = await salesServices.deleteById(1);
+      expect(resultado).to.be.an('boolean');
+      expect(resultado).to.be.equal(true);
       expect(deleteByIdSpy.callCount).to.be.equal(1);
       expect(deleteByIdSpy.getCalls()[0].args.length).to.be.equal(1);
       expect(deleteByIdSpy.getCalls()[0].args[0]).to.be.an('number');

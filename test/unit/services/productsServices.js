@@ -281,59 +281,39 @@ describe('5 - Delete produtos no DB', () => {
   describe('Quando não existe o produto', () => {
     let deleteByIdSpy;
     beforeEach(() => {
-      deleteByIdSpy = sinon.stub(productsServices, 'deleteById').resolves([[{ affectedRows: 0 }]]);
+      deleteByIdSpy = sinon.stub(productsModels, 'deleteById').resolves([{ affectedRows: 0 }]);
     });
 
     afterEach(() => {
-      productsServices.deleteById.restore();
-    });
-
-    it('Retornar um array', async () => {
-      const [resultado] =  await productsServices.deleteById(1);
-      expect(resultado).to.not.be.empty;
-      expect(resultado).to.be.an('array');
-    });
-
-    it('Retornar um objeto', async () => {
-      const [resultado] =  await productsServices.deleteById(1);
-      expect(resultado).to.not.be.empty;
-      expect(resultado[0]).to.be.an('object');
+      productsModels.deleteById.restore();
     });
 
     it('retornar `affectedRows` igual a 0', async () => {
-      const [resultado] = await productsServices.deleteById(1);
-      expect(resultado[0]).to.has.key('affectedRows');
-      expect(resultado[0].affectedRows).to.be.equal(0);
+      const resultado = await productsServices.deleteById(1);
+      expect(resultado).to.be.an('boolean');
+      expect(resultado).to.be.equal(false);
       expect(deleteByIdSpy.callCount).to.be.equal(1);
+      expect(deleteByIdSpy.getCalls()[0].args.length).to.be.equal(1);
+      expect(deleteByIdSpy.getCalls()[0].args[0]).to.be.an('number');
     });
   });
   describe('Quando existe o produto', () => {
     let deleteByIdSpy;
     beforeEach(() => {
-      deleteByIdSpy = sinon.stub(productsServices, 'deleteById').resolves([[{ affectedRows: 1 }]]);
+      deleteByIdSpy = sinon.stub(productsModels, 'deleteById').resolves([{ affectedRows: 1 }]);
     });
 
     afterEach(() => {
-      productsServices.deleteById.restore();
-    });
-
-    it('Retornar um array', async () => {
-      const [resultado] =  await productsServices.deleteById(1);
-      expect(resultado).to.not.be.empty;
-      expect(resultado).to.be.an('array');
-    });
-
-    it('Retornar um objeto', async () => {
-      const [resultado] =  await productsServices.deleteById(1);
-      expect(resultado).to.not.be.empty;
-      expect(resultado[0]).to.be.an('object');
+      productsModels.deleteById.restore();
     });
 
     it('retornar `affectedRows` igual a 1', async () => {
-      const [resultado] = await productsServices.deleteById(1);
-      expect(resultado[0]).to.has.key('affectedRows');
-      expect(resultado[0].affectedRows).to.be.equal(1);
+      const resultado = await productsServices.deleteById(1);
+      expect(resultado).to.be.an('boolean');
+      expect(resultado).to.be.equal(true);
       expect(deleteByIdSpy.callCount).to.be.equal(1);
+      expect(deleteByIdSpy.getCalls()[0].args.length).to.be.equal(1);
+      expect(deleteByIdSpy.getCalls()[0].args[0]).to.be.an('number');
     });
 });
 });
