@@ -5,10 +5,8 @@ const getAll = async () => {
   return result;
 };
 const getById = async (id) => {
-    if (id) {
-      const [result] = await productsModels.getById(id);
-      return result;
-    }
+  const [result] = await productsModels.getById(id);
+  return result;
 };
 
 const create = ({ name, quantity }) => {
