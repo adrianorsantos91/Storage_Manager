@@ -17,19 +17,18 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
   const productList = await salesService.create(req.body);
-  if (productList) {
-    return res.status(201).json(productList);
+  if (!productList) {
+    return res.status(400).send('Venda não adicionada');
   }
-
-  res.status(400).json({ message: `Algo esta errado: %s ${productList}` });
+  return res.status(201).json(productList);
 };
 
-const updateById = (req, res) => {
+const updateById = async (req, res) => {
   const { id } = req.params;
   const salesData = req.body;
-  const result = salesService.updateById(id, salesData);
+  const result = await salesService.updateById(id, salesData);
   if (!result) {
-    return res.status(404).send({ message: 'Sales not found' });
+    return res.status(404).json({ message: 'Sale not found' });
   }
 
   const salesUpdate = {
@@ -45,7 +44,7 @@ const deleteById = async (req, res) => {
   const result = await salesService.deleteById(id);
 
   if (!result) {
-    return res.status(404).send({ message: 'Sale not found' });
+    return res.status(404).json({ message: 'Sale not found' });
   }
 
   return res.status(204).end();

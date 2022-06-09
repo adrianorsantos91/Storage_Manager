@@ -7,7 +7,6 @@ const getAll = async (_req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-
   const [productsList] = await productsService.getById(id);
   if (!productsList) {
    return res.status(404).json({ message: 'Product not found' });
@@ -36,7 +35,7 @@ const updateById = async (req, res) => {
   const result = await productsService.updateById(id, req.body);
 
   if (!result) {
-    return res.status(404).send({ message: 'Product not found' });
+    return res.status(404).json({ message: 'Product not found' });
   }
 
   const productUpdate = {
@@ -53,7 +52,7 @@ const deleteById = async (req, res) => {
   const result = await productsService.deleteById(id);
 
   if (!result) {
-    return res.status(404).send({ message: 'Product not found' });
+    return res.status(404).json({ message: 'Product not found' });
   }
 
   return res.status(204).end();
