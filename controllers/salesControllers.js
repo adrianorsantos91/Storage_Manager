@@ -1,5 +1,5 @@
 const salesService = require('../services/salesServices');
-// const productsServices = require('../services/productsServices');
+const productsServices = require('../services/productsServices');
 // const productsModels = require('../models/productsModels');
 // const errorHandler = require('../utils/errorHandler');
 
@@ -19,13 +19,15 @@ const getById = async (req, res) => {
 };
 
 const create = async (req, res) => {
-  const productList = await salesService.create(req.body);
-  console.log('productList', productList);
-  if (!productList) {
-    return res.status(400).json({ message: 'Venda não adicionada' });
+  const [{ productId, quantity }] = req.body;
+  const [checkProduct] = await productsServices.getById(productId);
+  const salesList = await salesService.create(req.body);
+
+  if ((checkProduct.quantity - quantity) < 0) {
+    return res.status(422).json({ message: 'Such amount is not permitted to sell' });
   }
 
-  return res.status(201).json(productList);
+  return res.status(201).json(salesList);
 };
 
 // const create = async (req, res, next) => {
