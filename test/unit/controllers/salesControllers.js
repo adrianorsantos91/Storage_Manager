@@ -120,7 +120,7 @@ describe('3 - Insere novos produtos no DB', async () => {
       };
 
       response.status = sinon.stub().returns(response);
-      response.send = sinon.stub().returns();
+      response.json = sinon.stub().returns();
 
       sinon.stub(salesServices, "create").resolves(false);
     });
@@ -138,7 +138,7 @@ describe('3 - Insere novos produtos no DB', async () => {
     it("é chamado o json com a mensagem 'Venda não adicionada'", async () => {
       await salesControllers.create(request, response);
 
-      expect(response.send.calledWith('Venda não adicionada')).to.be.equal(true);
+      expect(response.json.calledWith({ message: 'Venda não adicionada' })).to.be.equal(true);
     });
   });
   describe("quando é inserido com sucesso", async () => {

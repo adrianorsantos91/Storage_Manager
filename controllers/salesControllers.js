@@ -1,4 +1,7 @@
 const salesService = require('../services/salesServices');
+// const productsServices = require('../services/productsServices');
+// const productsModels = require('../models/productsModels');
+// const errorHandler = require('../utils/errorHandler');
 
 const getAll = async (_req, res) => {
   const salesList = await salesService.getAll();
@@ -17,11 +20,27 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
   const productList = await salesService.create(req.body);
+  console.log('productList', productList);
   if (!productList) {
-    return res.status(400).send('Venda não adicionada');
+    return res.status(400).json({ message: 'Venda não adicionada' });
   }
+
   return res.status(201).json(productList);
 };
+
+// const create = async (req, res, next) => {
+//   // const salesData = req.body;
+//   try {
+//     const productList = await salesService.create(req.body);
+//     if (!productList) {
+//       throw errorHandler(400, 'Venda não adicionada');
+//     }
+
+//     return res.status(201).json(productList);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 const updateById = async (req, res) => {
   const { id } = req.params;

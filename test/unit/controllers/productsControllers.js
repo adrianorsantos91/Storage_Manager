@@ -273,7 +273,7 @@ describe('5 - Delete produtos no DB', () => {
       expect(response.status.calledWith(204)).to.be.equal(true);
     });
 
-    it('é chamado o send com a mensagem "Dados inválidos"', async () => {
+    it('é chamado o end', async () => {
       await productsControllers.deleteById(request, response);
       expect(response.end.calledWith()).to.be.equal(true);
     });
