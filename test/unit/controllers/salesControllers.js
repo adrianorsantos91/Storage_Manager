@@ -4,6 +4,7 @@ const { expect } = require('chai');
 const salesServices = require('../../../services/salesServices');
 const salesControllers = require('../../../controllers/salesControllers');
 const salesMock = require('../../../Mock/salesMock');
+const productsServices = require('../../../services/productsServices');
 
 describe('1 - Busca todos os dados de vendas no DB [Controllers - Sales]', async () => {
   const response = {};
@@ -109,55 +110,108 @@ describe('2 - Busca todos os dados das produtos por id no DB', async () => {
   });
 });
 describe('3 - Insere novos produtos no DB', async () => {
-  describe("quando é inserido sem sucesso", async () => {
+
+  describe("quando não tem estoque suficiente", async () => {
     const response = {};
     const request = {};
 
+    const products = [{
+      id: 1,
+      name: "Martelo de Thor",
+      quantity: 0,
+    }];
+
     before(() => {
-      request.body = {
-        name: "Gavião",
-        quantity: 1
-      };
+      request.params = { id: 1 };
+      request.body = [{ productId: 1, quantity: 20 }];
+
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
+      sinon.stub(productsServices, "getById").resolves(products);
       sinon.stub(salesServices, "create").resolves(false);
     });
 
     after(() => {
+      productsServices.getById.restore();
       salesServices.create.restore();
     });
 
-    it("é chamado o status com o código 400", async () => {
-      await salesControllers.create(request, response);
+    it("é chamado o status com o código 422", async () => {
+      const result = await salesControllers.create(request, response);
 
-      expect(response.status.calledWith(400)).to.be.equal(true);
+      expect(response.status.calledWith(422)).to.be.equal(true);
     });
 
     it("é chamado o json com a mensagem 'Venda não adicionada'", async () => {
-      await salesControllers.create(request, response);
+      const result = await salesControllers.create(request, response);
 
-      expect(response.json.calledWith({ message: 'Venda não adicionada' })).to.be.equal(true);
+      expect(response.json.calledWith({ message: 'Such amount is not permitted to sell' })).to.be.equal(true);
     });
   });
+  // describe("quando é inserido sem sucesso", async () => {
+  //   const response = {};
+  //   const request = {};
+
+  //   const products = {
+  //     id: 1,
+  //     name: "Martelo de Thor",
+  //     quantity: 10,
+  //   };
+
+  //   before(() => {
+  //     request.params = { id: 1 };
+  //     request.body = [{ productId: 1, quantity: 20 }];
+
+
+  //     response.status = sinon.stub().returns(response);
+  //     response.json = sinon.stub().returns();
+
+  //     sinon.stub(productsServices, "getById").resolves(products);
+  //     sinon.stub(salesServices, "create").resolves(false);
+  //   });
+
+  //   after(() => {
+  //     productsServices.getById.restore();
+  //     salesServices.create.restore();
+  //   });
+
+  //   it("é chamado o status com o código 400", async () => {
+  //     await salesControllers.create(request, response);
+
+  //     expect(response.status.calledWith(400)).to.be.equal(true);
+  //   });
+
+  //   it("é chamado o json com a mensagem 'Venda não adicionada'", async () => {
+  //     await salesControllers.create(request, response);
+
+  //     expect(response.json.calledWith({ message: 'Venda não adicionada' })).to.be.equal(true);
+  //   });
+  // });
   describe("quando é inserido com sucesso", async () => {
     const response = {};
     const request = {};
 
+    const products = [{
+      id: 1,
+      name: "Martelo de Thor",
+      quantity: 10,
+    }];
+
     before(() => {
-      request.body = {
-        name: "Gavião",
-        quantity: 1
-      };
+      request.params = { id: 1 };
+      request.body = [{ productId: 1, quantity: 1 }];
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
+      sinon.stub(productsServices, "getById").resolves(products);
       sinon.stub(salesServices, "create").resolves(true);
     });
 
     after(() => {
+      productsServices.getById.restore();
       salesServices.create.restore();
     });
 

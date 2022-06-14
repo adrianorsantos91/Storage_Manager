@@ -189,7 +189,6 @@ describe('4 - Atualizar produtos no DB', () => {
 
     it('Retornar um array', async () => {
       const [resultado] =  await salesModels.updateById(1, salesData);
-      console.log('update: %s', resultado);
       expect(resultado).to.not.be.empty;
       expect(resultado).to.be.an('array');
     });
