@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 const productsModels = require('../../../models/productsModels');
-const connection = require('../../../models/connection');
+const connection = require('../../../db/connection');
 
 describe('1 - Busca todos os dados dos produtos no DB', () => {
   describe('Quando não existe nenhum produto', () => {

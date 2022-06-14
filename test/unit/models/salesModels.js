@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 const salesModels = require('../../../models/salesModels');
-const connection = require('../../../models/connection');
+const connection = require('../../../db/connection');
 
 describe('1 - Busca todos os dados de vendas no DB', () => {
   describe('Quando não existe nenhuma venda', () => {
